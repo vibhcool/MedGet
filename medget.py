@@ -7,12 +7,14 @@ class medget:
     api = infermedica_api.get_api()
 
     def get_data(self,sex_m,age_m):
-
-        self.user_data = infermedica_api.Diagnosis(sex=sex_m, age=age_m)
+    ''' Initialize the user to be diagnosed
+    '''
+        self.user_data = infermedica_api.Diagnosis(sex=sex_m.lower(), age=age_m)
         
     
     def add_symptoms(self, ids):
-    ''' ids is the list of dicts with keys 'id' and 'status' '''    
+    ''' The ids is the list of dicts with keys 'id' and 'status' 
+    '''    
         for i in ids:
             self.user_data.add_symptom( 
                 str(i[str(u'id')]),
@@ -20,7 +22,9 @@ class medget:
             )
         
     def search_symptoms(self, symptoms_str):
-    ''' Outputs more symptoms related to symptom user enters '''
+    ''' Outputs more symptoms related to symptom_str (is a list of symptoms)
+        user enters
+    '''
         search_res = []
         for i in symptoms_str:
             res = self.api.search(i)
@@ -62,7 +66,8 @@ class medget:
             return 0
 
     def get_result(self, ):
-    ''' Outputs the probable disease the user may have '''
+    ''' Outputs the probable disease the user may have
+    '''
         result = {}
         result['id'] = str(self.user_data.conditions[0][str('id')])      
         result['name'] = str(self.user_data.conditions[0][str('name')])
